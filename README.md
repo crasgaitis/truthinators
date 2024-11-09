@@ -4,6 +4,4 @@ Lie detection + auto shocking ppl!
 - Arduino + TENS device to deliver shocks: Vincent
 - Video processing: Akshita Riddhi
 - Audio processing: Ravi
-- EEG processing: Veer, Akshita Riddhi
-
-
+- EEG processing: Veer, Ellie, Ameya, Akshita
