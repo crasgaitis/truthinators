@@ -15,8 +15,6 @@ while True:
         break
     # Our operations on the frame come here
     gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    print(gray.shape)
-    # 48 x 48 x 1
     # Display the resulting frame
     cv.imshow('frame', gray)
     if cv.waitKey(1) == ord('q'):
@@ -25,7 +23,6 @@ while True:
 # Define the codec and create VideoWriter object
 fourcc = cv.VideoWriter_fourcc(*'XVID')
 out = cv.VideoWriter('output.avi', fourcc, 20.0, (640,  480))
-
 while cap.isOpened():
     ret, frame = cap.read()
     if not ret:
