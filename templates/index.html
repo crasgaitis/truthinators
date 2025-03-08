@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion & Sentiment Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        #video-container {
+            margin: 20px auto;
+            width: 50%;
+        }
+        img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        #emotion, #sentiment {
+            font-size: 20px;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+    </style>
+    <script>
+        async function updateEmotion() {
+            // Fetch data from the root endpoint to get both emotion and sentiment data
+            const response = await fetch('/');
+            const data = await response.json(); // Expecting { emotion, sentiment, text }
+    
+            // Update the UI elements with the received data
+            document.getElementById('emotion').innerText = "Detected Emotion: " + data.emotion;
+            document.getElementById('sentiment').innerText = "Detected Sentiment: " + data.sentiment;
+            document.getElementById('text').innerText = "Transcript: " + data.text;
+        }
+    
+        // Set an interval to call the updateEmotion function every 2 seconds
+        setInterval(updateEmotion, 2000);
+    </script>
+</head>
+<body>
+    <h1>Real-time Emotion & Sentiment Detection</h1>
+    <div id="video-container">
+        <img src="{{ url_for('video_feed') }}" alt="Video Feed">
+    </div>
+    <p id="emotion">Detected Emotion: {{ detected_emotion }}</p>
+    <p id="sentiment">Detected Sentiment: {{ detected_sentiment }}</p>
+    <p id = 'text'>Transcript: {{text}}</p>
+</body>
+</html>
