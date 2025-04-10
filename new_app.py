@@ -17,10 +17,10 @@ def check_if_true(sensitivity, model1_out, model2_out):
     model1_bool = model1_out[model1_out <= np.abs(avg - stdeviation1)]
     model2_bool = model2_out[model2_out <= np.abs(avg - stdeviation2)]
 
-    threshhold = sensitivity * 6
+    threshold = sensitivity * 6
 
     avg_length = (model1_bool + model2_bool) / 2.0
-    if(avg_length < threshhold):
+    if(avg_length < threshold):
         shock = 1
 
     return shock
