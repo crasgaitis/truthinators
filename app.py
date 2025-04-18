@@ -12,11 +12,11 @@ import time
 import os
 import wave
 import pyaudio
-import serial
+import serial 
 
 # TODO: Test arduino connection
 baud = 9600
-port = "COM3"
+port = "COM9"
 shocker = serial.Serial(port, baud)
 
 os.makedirs("temp_files", exist_ok=True)
@@ -115,10 +115,12 @@ def analyze():
             transcript = "[Unable to transcribe]"
 
     # 2. TODO: Sentiment. Replace with speech model.
+    sensitivity_factor = 1
+    scaled_sens_fact = 0.25 (sensitivity_factor ** 2) + 0.75 * sensitivity_factor + 1
     sentiment_score = analyzer.polarity_scores(transcript)
-    if sentiment_score['compound'] >= 0.0001:
+    if sentiment_score['compound'] >= 0.0001 / scaled_sens_fact:
         sentiment = "positive"
-    elif sentiment_score['compound'] <= -0.000001:
+    elif sentiment_score['compound'] <= -0.000001 / scaled_sens_fact:
         sentiment = "negative"
     else:
         sentiment = "neutral"
