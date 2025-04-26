@@ -125,11 +125,20 @@ def analyze():
     else:
         sentiment = "neutral"
 
-    # 3. Video data: random frame and detect emotion
+   # 3. Video data: random frame and detect emotion
     chosen_frame = random.choice(frames_list)
     chosen_emotion = detect_emotion(chosen_frame)
 
     # 4. TODO: Determine lie/truth. Add a sensitivity metric. 
+    # sensitivity = 1
+    # shock_str = 1
+    # if sentiment_score['compound'] >= (sensitivity * 0.0001):
+    #     shock_str = 2
+    # elif sentiment_score['compound'] <= (sensitivity * -0.000001):
+    #     shock_str = 2
+    # else:
+    #     shock_str = 1
+    
     # With current setup, consider editing the ranges in line 113, 115.
     # With future setup, consider adapting heuristics in new_app.py    
     if sentiment == "positive" and chosen_emotion in pos_emotion:
@@ -152,17 +161,20 @@ def analyze():
     status_label.config(text=f"Result: {final_result}")
     transcript_display.config(text="Transcript:\n" + transcript)
     
-    # TODO - Send a shock
     if final_result == "Lie":
-        cmd = "CMD: 0.0,2.0\n"
-        
+        cmd = "H"
+        cmd2 = "L"
+        sleep_time = (5-1)(np.abs(sentiment_score)) + 1
+        print("Sleep time: " + sleep_time)
         # Send cmd message to the car
         # Right now we don't really need to handle the ack message but in the future could support better error handling
         shocker.write(cmd.encode())
         shocker.flush() # make sure it all sends before you start reading
         print("Sent: " + cmd)
-        time.sleep(1)
-    
+        time.sleep(sleep_time)
+        shocker.write(cmd2.encode())
+        shocker.flush()
+        print("Sent: " + cmd2)
 
 def start_recording():
     global is_running, frames_list
