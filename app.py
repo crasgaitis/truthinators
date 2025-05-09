@@ -12,18 +12,16 @@ import time
 import os
 import wave
 import pyaudio
-import serial 
+import serial
 
-# TODO: Test arduino connection
 baud = 9600
-port = "COM9"
+port = "COM9" # CHANGE THIS IF NEEDED!
 shocker = serial.Serial(port, baud)
 
 os.makedirs("temp_files", exist_ok=True)
 VIDEO_PATH = "temp_files/input.mp4"
 AUDIO_PATH = "temp_files/input.wav"
 
-# TODO: CNN Model
 model = tf.keras.models.load_model("model_baseline_dense2_128.keras")
 
 emotion_label_to_text = {
@@ -114,30 +112,31 @@ def analyze():
         except:
             transcript = "[Unable to transcribe]"
 
-    # 2. TODO: Sentiment. Replace with speech model.
+    # 2. Sentiment. Replace with speech model. OLD.
+    # sentiment_score = analyzer.polarity_scores(transcript)
+    # if sentiment_score['compound'] >= 0.0001:
+    #     sentiment = "positive"
+    # elif sentiment_score['compound'] <= -0.000001:
+    #     sentiment = "negative"
+    # else:
+    #     sentiment = "neutral"
+    
+    # 2. Sentiment. NEW.
     sensitivity_factor = 1
-    scaled_sens_fact = 0.25 (sensitivity_factor ** 2) + 0.75 * sensitivity_factor + 1
     sentiment_score = analyzer.polarity_scores(transcript)
-    if sentiment_score['compound'] >= 0.0001 / scaled_sens_fact:
+    if sentiment_score['compound'] >= 0.0001 / sensitivity_factor:
         sentiment = "positive"
-    elif sentiment_score['compound'] <= -0.000001 / scaled_sens_fact:
+        shock_str = sentiment_score['compound'] * 3000
+    elif sentiment_score['compound'] <= -0.000001 / sensitivity_factor:
         sentiment = "negative"
+        shock_str = sentiment_score['compound'] * 300000
     else:
         sentiment = "neutral"
-
-   # 3. Video data: random frame and detect emotion
+        
+    
+    # 3. Video data: random frame and detect emotion
     chosen_frame = random.choice(frames_list)
     chosen_emotion = detect_emotion(chosen_frame)
-
-    # 4. TODO: Determine lie/truth. Add a sensitivity metric. 
-    # sensitivity = 1
-    # shock_str = 1
-    # if sentiment_score['compound'] >= (sensitivity * 0.0001):
-    #     shock_str = 2
-    # elif sentiment_score['compound'] <= (sensitivity * -0.000001):
-    #     shock_str = 2
-    # else:
-    #     shock_str = 1
     
     # With current setup, consider editing the ranges in line 113, 115.
     # With future setup, consider adapting heuristics in new_app.py    
@@ -164,14 +163,14 @@ def analyze():
     if final_result == "Lie":
         cmd = "H"
         cmd2 = "L"
-        sleep_time = (5-1)(np.abs(sentiment_score)) + 1
-        print("Sleep time: " + sleep_time)
+        
         # Send cmd message to the car
         # Right now we don't really need to handle the ack message but in the future could support better error handling
         shocker.write(cmd.encode())
         shocker.flush() # make sure it all sends before you start reading
         print("Sent: " + cmd)
-        time.sleep(sleep_time)
+        time.sleep(shock_str)
+        print(f"Shock for {shock_str} s")
         shocker.write(cmd2.encode())
         shocker.flush()
         print("Sent: " + cmd2)
