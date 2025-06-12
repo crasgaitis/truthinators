@@ -8,16 +8,13 @@ This project is supported by Synaptech and made possible by the 2025 Technical G
 
 We presented our work (alongside an interactive demo) at the 2025 Allen School Master's & Undergraduate Research Showcase and are excited to announce that we were voted the crowd favorite "People's Choice" award.
 
-<table style="border-collapse: collapse; border: none; width: 100%;">
-  <tr>
-    <td style="text-align: center; border: none;">
-      <img src="https://github.com/user-attachments/assets/a2b62ee9-cbe1-450b-8801-2c6dabb1d635" alt="image 1" style="height: 300px; width: auto;" />
-    </td>
-    <td style="text-align: center; border: none;">
-      <img src="https://github.com/user-attachments/assets/07c1181f-acd0-4c10-9e85-2ffcb297c902" alt="image 2" style="height: 300px; width: auto;" />
-    </td>
-  </tr>
-</table>
+<div style="display: flex; justify-content: center; gap: 20px;">
+  <img src="https://github.com/user-attachments/assets/a2b62ee9-cbe1-450b-8801-2c6dabb1d635" alt="image 1" style="height: 300px; width: auto;" />
+  <img src="https://github.com/user-attachments/assets/07c1181f-acd0-4c10-9e85-2ffcb297c902" alt="image 2" style="height: 300px; width: auto;" />
+</div>
+
+<br/>
+
 
 <div align="center">
 
